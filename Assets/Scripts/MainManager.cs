@@ -12,6 +12,8 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public Text  playerNameText;
+    public Text highScoreText;
     
     private bool m_Started = false;
     private int m_Points;
@@ -22,6 +24,10 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Load player name
+        playerNameText.text = "Player: " + GM.Instance.playerName;
+        //Load high score
+        highScoreText.text = "High Score : " + GM.Instance.highScoreName + " " + GM.Instance.highScore.ToString();
 
         
 
@@ -75,5 +81,14 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+
+        //Check Highscore
+        if (m_Points >= GM.Instance.highScore )
+        {
+            GM.Instance.highScore = m_Points;
+            GM.Instance.highScoreName = GM.Instance.playerName;
+            GM.Instance.SaveGame();
+        }
+
     }
 }
